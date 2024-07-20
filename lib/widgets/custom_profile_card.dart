@@ -12,6 +12,7 @@ class CustomProfileCard extends StatefulWidget {
   final int likeCount;
   final int commentCount;
   final VoidCallback onActionPressed;
+  final VoidCallback onCommentPressed; // Add this line
 
   const CustomProfileCard({
     Key? key,
@@ -22,6 +23,7 @@ class CustomProfileCard extends StatefulWidget {
     required this.likeCount,
     required this.commentCount,
     required this.onActionPressed,
+    required this.onCommentPressed, // Add this line
   }) : super(key: key);
 
   @override
@@ -46,7 +48,6 @@ class _CustomProfileCardState extends State<CustomProfileCard> {
                       backgroundImage: NetworkImage(widget.profileImageUrl),
                       radius: 20,
                     ),
-
                   ],
                 ),
                 title: Text(
@@ -160,21 +161,24 @@ class _CustomProfileCardState extends State<CustomProfileCard> {
                         ),
                       ),
                       SizedBox(width: 15),
-                      Row(
-                        children: [
-                          AssetIcon(
-                            assetName: 'assets/icons/comment_icon.png',
-                            color: Colors.black,
-                          ),
-                          SizedBox(width: 5),
-                          Text(
-                            '${widget.commentCount}',
-                            style: TextStyle(
+                      InkWell(
+                        onTap: widget.onCommentPressed, // Add this line
+                        child: Row(
+                          children: [
+                            AssetIcon(
+                              assetName: 'assets/icons/comment_icon.png',
                               color: Colors.black,
-                              fontFamily: 'Roboto',
                             ),
-                          ),
-                        ],
+                            SizedBox(width: 5),
+                            Text(
+                              '${widget.commentCount}',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Roboto',
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       Spacer(),
                       AssetIcon(

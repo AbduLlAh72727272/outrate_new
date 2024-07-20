@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import '../models/feed_model.dart';
+import '../services/home_service.dart'; // Import HomeService
 
 class HomeController extends GetxController {
   var profiles = <FeedModel>[].obs;
   var isLoading = true.obs;
   late String token;
   late int userId;
+  final HomeService _homeService = HomeService(); // Create an instance of HomeService
 
   void initialize(String token, int userId) {
     this.token = token;
@@ -18,37 +18,12 @@ class HomeController extends GetxController {
   Future<void> fetchProfiles() async {
     isLoading.value = true;
 
-    final url = 'https://outrate-apis.vercel.app/api/v2/Post/GetFeed/$userId';
-    final headers = {
-      'Authorization': '$token',
-    };
-
-    print('Request URL: $url');
-    print('Request URL: $token');
-
-    print('Request Headers: $headers');
-
-    final response = await http.get(
-      Uri.parse(url),
-      headers: headers,
-    );
-
-    print('Response Body: ${response.body}');
-    print('Response Status Code: ${response.statusCode}');
-
-    if (response.statusCode == 200) {
-      final jsonResponse = json.decode(response.body);
-      if (jsonResponse['status'] == true) {
-        profiles.value = (jsonResponse['posts'] as List)
-            .map((data) => FeedModel.fromJson(data))
-            .toList();
-      } else {
-        Get.snackbar('Error', jsonResponse['message']);
-      }
-    } else {
-      Get.snackbar('Error', 'Failed to fetch profiles: ${response.statusCode}');
+    try {
+      profiles.value = await _homeService.fetchProfiles(token, userId);
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading.value = false;
     }
-
-    isLoading.value = false;
   }
 }

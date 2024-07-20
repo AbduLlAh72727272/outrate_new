@@ -33,31 +33,26 @@ class SettingsScreen extends StatelessWidget {
             children: [
               TextField(
                 decoration: InputDecoration(
-                  // hintText: 'Search...',
-                  // prefixIcon: Icon(Icons.search),
                   suffixIcon: Padding(
                     padding: const EdgeInsetsDirectional.only(end: 8.0),
                     child: Image.asset(
                       'assets/icons/icon_search.png',
-
-                      // fit: BoxFit.cover,
                     ),
                   ),
                   suffixIconConstraints:
-                      const BoxConstraints(maxHeight: 32, maxWidth: 32),
-
+                  const BoxConstraints(maxHeight: 32, maxWidth: 32),
                   filled: true,
                   fillColor: Color(0xFF9797BD).withOpacity(0.15),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(40),
                     borderSide: BorderSide(
-                      color: Colors.transparent, // default border color
+                      color: Colors.transparent,
                     ),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(40),
                     borderSide: BorderSide(
-                      color: Colors.transparent, // default border color
+                      color: Colors.transparent,
                     ),
                   ),
                 ),
@@ -82,7 +77,7 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 title: const Text('Edit Profile'),
                 onTap: () {
-                  Get.to(() =>  EditProfileScreen());
+                  Get.to(() => EditProfileScreen());
                   // Handle tap
                 },
               ),
@@ -138,7 +133,7 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 title: const Text('Delete Account'),
                 onTap: () {
-                  // Handle tap
+                  showDeleteAccountDialog(context);
                 },
               ),
               ListTile(
@@ -157,5 +152,70 @@ class SettingsScreen extends StatelessWidget {
             ],
           ),
         ));
+  }
+
+  void showDeleteAccountDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: Center(
+            child: Text(
+              "Are you sure you want to DELETE your account?",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          actionsAlignment: MainAxisAlignment.spaceAround,
+          actions: <Widget>[
+            SizedBox(
+              width: 100,
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: Color(0xffFF6600),
+                  side: const BorderSide(color: Color(0xffFF6600)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                child: const Text(
+                  "No",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 100,
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: Color(0xffFFFFFF),
+                  side: const BorderSide(color: Colors.grey),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                onPressed: () {
+                  // Add your delete account logic here
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                child: const Text(
+                  "Yes",
+                  style: TextStyle(color: Color(0xffFF6600)),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

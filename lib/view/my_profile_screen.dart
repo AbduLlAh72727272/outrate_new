@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:out_rate/themes/colors.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:out_rate/view/settings_screen.dart';
+import 'followers_view.dart'; // Import your followers view
 
 class MyProfileScreen extends StatelessWidget {
   final String token;
@@ -126,22 +127,30 @@ class MyProfileScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Column(
-                  children: [
-                    Text(
-                      '300K',
-                      style: GoogleFonts.roboto(
-                          fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'Followers',
-                      style: GoogleFonts.roboto(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: greyColor,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const FollowersView()),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Text(
+                        '300K',
+                        style: GoogleFonts.roboto(
+                            fontSize: 24, fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ],
+                      Text(
+                        'Followers',
+                        style: GoogleFonts.roboto(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: greyColor,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 Column(
                   children: [

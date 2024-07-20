@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:out_rate/themes/colors.dart';
 import 'package:out_rate/view/leaderboard_screen.dart';
 import 'package:out_rate/view/my_profile_screen.dart';
 import 'package:out_rate/view/profile_screen.dart';
 import 'package:out_rate/view/search_screen.dart';
+import '../view/create_post_view.dart';
+//import 'create_post_view.dart';  // Import the CreatePostView
 import '../view/home_screen.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -55,7 +58,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           ),
           SearchScreen(
             onItemSelected: onItemTapped,
-            token: widget.token,
+            token: widget.token, recentUserIds: [],
           ),
           LeaderboardScreen(),
           Container(), // Placeholder for the middle button
@@ -118,7 +121,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 borderRadius: BorderRadius.circular(50),
               ),
               onPressed: () {
-                // Handle middle button press
+                Get.to(() => CreatePostView());
               },
               backgroundColor: primaryColor,
               child: Image.asset(

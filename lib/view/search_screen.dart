@@ -1,3 +1,5 @@
+// views/search_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:out_rate/themes/colors.dart';
@@ -6,11 +8,13 @@ import '../controllers/search_controller.dart' as custom;
 class SearchScreen extends StatefulWidget {
   final void Function(int) onItemSelected;
   final String token;
+  final List<int> recentUserIds; // Pass recent user IDs
 
   const SearchScreen({
     super.key,
     required this.onItemSelected,
     required this.token,
+    required this.recentUserIds,
   });
 
   @override
@@ -30,7 +34,8 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     super.initState();
     searchController = Get.put(custom.SearchController());
-    searchController.fetchRecentUsers(); // Fetch recent users on init
+    searchController.token = widget.token;
+    searchController.fetchRecentUsers(widget.recentUserIds); // Fetch recent users on init
   }
 
   @override
@@ -73,7 +78,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                   suffixIconConstraints:
-                      const BoxConstraints(maxHeight: 32, maxWidth: 32),
+                  const BoxConstraints(maxHeight: 32, maxWidth: 32),
                   filled: true,
                   fillColor: Color(0xFF9797BD).withOpacity(0.15),
                   enabledBorder: OutlineInputBorder(
@@ -110,7 +115,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     Text(
                       'See All',
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
@@ -133,10 +138,10 @@ class _SearchScreenState extends State<SearchScreen> {
                             .copyWith(right: 0),
                         leading: CircleAvatar(
                           backgroundImage: NetworkImage(
-                              user['profileImageUrl'] ??
+                              user.profilePicUrl ??
                                   'assets/images/dummy_1.png'),
                         ),
-                        title: Text(user['username'] ?? 'Unknown User'),
+                        title: Text(user.username),
                         trailing: IconButton(
                           icon: Icon(Icons.close),
                           onPressed: () {
